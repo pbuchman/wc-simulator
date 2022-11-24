@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: ${profile:development}
+  application:
+    name: World Cup Simulator (${spring.profiles.active})
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        # FIX FOR: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
+        # Disable feature detection by this undocumented parameter. Check the org.hibernate.engine.jdbc.internal.JdbcServiceImpl.configure method for more details.
+        temp.use_jdbc_metadata_defaults: false
+        # Because detection is disabled you have to set correct dialect by hand.
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+        jdbc.batch_size: 20
+        ddl-auto: validate
+        generate_statistics: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: development
+  datasource:
+    url: "jdbc:postgresql://127.0.0.1:5432/simulator_dev"
+    username: postgres
+    password: s3cr3t
+
+server:
+  error:
+    include-stacktrace: ON_PARAM
+    include-exception: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
