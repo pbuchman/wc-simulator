@@ -1,5 +1,9 @@
 package com.pbuchman.simulatorservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +14,18 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @Table(schema = "simulator", name = "teams")
-public record Team(
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer id,
-        @NotBlank @NotNull @Column(unique = true) String name
-) {
+public class Team {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank @NotNull
+    @Column(unique = true)
+    String name;
+
 }

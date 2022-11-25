@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-
-import static reactor.core.publisher.Mono.just;
+import java.time.Clock;
+import java.time.Instant;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -30,7 +31,7 @@ public class GameResultController {
     @ResponseStatus(HttpStatus.OK)
     public Mono<GameResultResponse> simulate(@Valid @RequestBody GameResultRequest request) {
 
-        return just(gameResultService.predict(request.team1(), request.team2(), request.playOff()))
-                .map(mapper::toResponse);
+        return gameResultService.predict(request.team1(), request.team2(), Optional.ofNullable(request.playOff()).orElse(false))
+                .map(result -> mapper.toResponse(result, Instant.now(Clock.systemUTC())));
     }
 }

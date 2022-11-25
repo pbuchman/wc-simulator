@@ -1,0 +1,37 @@
+
+services:
+  simulator:
+    build:
+      context: simulator-service
+    image: simulator-service:local
+    ports:
+      - "80:8080"
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/simulator_dev?reWriteBatchedInserts=true"
+
+  probabilities:
+    build:
+      context: probabilities-service
+    image: probabilities-service:local
+    ports:
+      - "81:80"
+
+  postgres:
+    build:
+      context: simulator-service/postgres
+    image: simulator-service-postgres:local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: simulator_dev
+      POSTGRES_PASSWORD: s3cr3t
+
+  redis:
+    image: redis:7
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
