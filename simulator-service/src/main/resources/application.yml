@@ -26,8 +26,8 @@ spring:
   config:
     activate:
       on-profile: development
-  datasource:
-    url: "jdbc:postgresql://127.0.0.1:5432/simulator_dev"
+  r2dbc:
+    url: "r2dbc:postgresql://127.0.0.1:5432/simulator_dev"
     username: postgres
     password: s3cr3t
 
