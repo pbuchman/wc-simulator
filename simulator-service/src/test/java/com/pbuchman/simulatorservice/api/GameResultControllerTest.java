@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.matchesPattern;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class GameResultControllerTest {
 
     @Autowired
@@ -49,7 +51,7 @@ class GameResultControllerTest {
         executeRequest(" ", "", false)
                 .expectStatus().isEqualTo(400) // @todo: handle that nicely on the app side
                 .expectBody()
-                .jsonPath("$.length()").value(equalTo(6)); // @todo: more assertions
+                .jsonPath("$.length()").value(equalTo(5)); // @todo: more assertions
     }
 
     @Test
@@ -57,7 +59,7 @@ class GameResultControllerTest {
         executeRequest("Italy", "Poland", false)
                 .expectStatus().isEqualTo(500) // @todo: handle that nicely on the app side
                 .expectBody()
-                .jsonPath("$.length()").value(equalTo(6)); // @todo: more assertions
+                .jsonPath("$.length()").value(equalTo(5)); // @todo: more assertions
     }
 
     @Test
@@ -65,8 +67,9 @@ class GameResultControllerTest {
         executeRequest("Poland", "Poland", false)
                 .expectStatus().isEqualTo(500) // @todo: handle that nicely on the app side
                 .expectBody()
-                .jsonPath("$.length()").value(equalTo(6)); // @todo: more assertions
+                .jsonPath("$.length()").value(equalTo(5)); // @todo: more assertions
     }
+
     private WebTestClient.ResponseSpec executeRequest(String team1, String team2, boolean playOff) {
         return webClient
                 .post()

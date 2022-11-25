@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
@@ -11,6 +12,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.matchesPattern;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class GroupResultsControllerTest {
 
     @Autowired
@@ -41,7 +43,7 @@ class GroupResultsControllerTest {
         executeRequest("   ")
                 .expectStatus().isEqualTo(400) // @todo: handle that nicely on the app side
                 .expectBody()
-                .jsonPath("$.length()").value(equalTo(6)); // @todo: more assertions
+                .jsonPath("$.length()").value(equalTo(5)); // @todo: more assertions
     }
 
     @Test
@@ -49,7 +51,7 @@ class GroupResultsControllerTest {
         executeRequest("X")
                 .expectStatus().isEqualTo(400) // @todo: handle that nicely on the app side
                 .expectBody()
-                .jsonPath("$.length()").value(equalTo(6)); // @todo: more assertions
+                .jsonPath("$.length()").value(equalTo(5)); // @todo: more assertions
     }
 
     private WebTestClient.ResponseSpec executeRequest(String group) {

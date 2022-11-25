@@ -21,6 +21,16 @@
         <logger name="com.pbuchman.simulatorservice" level="DEBUG"/>
     </springProfile>
 
+    <springProfile name="docker">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+
+        <logger name="org.springframework.web" level="DEBUG"/>
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="com.pbuchman.simulatorservice" level="DEBUG"/>
+    </springProfile>
+
     <springProfile name="test">
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
